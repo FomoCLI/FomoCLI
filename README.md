@@ -59,6 +59,8 @@ opening a browser.
   labeled in `--help`.
 - **Scriptable.** `--json` on every command (stdout stays clean JSON; footers go to stderr),
   meaningful exit codes, shell completion, `FOMO_API_KEY`.
+- **Launch your profile.** `fomocli launch <handle>` tokenizes a fomo.family profile on Pons v2,
+  simulating the exact transaction before you sign.
 - **Alpha tools.** Swarm radar for coordinated buys, a rug scanner with a reasoned risk score,
   shareable PNG trader cards, and alerts straight to Telegram or Discord.
 - **Try it with no key.** `fomocli --demo ...` runs every command against built-in sample data.
@@ -140,6 +142,43 @@ Plus `fomocli whois <userId>` (2,500) and `fomocli trade <tradeId> [comments]` (
 | `fomocli watch <handle>` | Follow one trader live (copy-trading view) | **0** |
 | `fomocli alerts` | REST snapshot of the feed. `--type whale`, `--since` | 125 |
 | `fomocli dash` | Full-screen dashboard (keys: `1-4` tabs, `↑↓`, `enter`, `w` window, `b` board, `r` refresh, `q` quit) | per tab |
+
+### Launch your profile on Pons v2
+
+`fomocli launch <handle>` turns a fomo.family profile into a token on
+[Pons v2](https://docs.ponsfamily.com/v2) (Robinhood Chain). The profile fills in the launch: display
+name as the token name, handle as the ticker, avatar as the logo, bio as the description and the
+profile's EVM wallet as the creator-fee recipient. Every field can be overridden.
+
+```sh
+fomocli launch CryptoKaleo --dry-run              # preview + simulate the exact transaction, no key
+fomocli launch CryptoKaleo                        # sign and launch
+fomocli launch CryptoKaleo --fee-to self --buy 0.02   # fees to you, plus a front-run-proof first buy
+fomocli launch --name "My Coin" --symbol MYC --logo https://... --description "..."
+```
+
+How it works, following the Pons v2 docs:
+
+1. Reads the live terms from the factory: launch fee, launch config, `canLaunch`, and pins them with `previewLaunchEconomics`.
+2. Builds `launchToken` (or `launchAndBuy` for `--buy`) with a fresh CREATE2 salt.
+3. Simulates the exact transaction and shows the token address it will create, the total cost and any warnings.
+4. Asks you to type the ticker, signs with your key, sends, and reads the new token from the `TokenLaunched` event.
+
+The key comes from `FOMO_PRIVATE_KEY` or a hidden prompt, is used once to sign and is never stored.
+Use a wallet holding only what the launch needs (launch fee 0.0005 ETH at the time of writing, plus
+gas and any first buy). Pons v2 is unaudited; launch tokens are volatile and can lose all value.
+
+| Flag | Meaning |
+|---|---|
+| `--name`, `--symbol`, `--logo`, `--description` | Override the profile-derived fields |
+| `--twitter`, `--telegram`, `--website` | Socials written into the token's on-chain metadata |
+| `--fee-to profile\|self\|0x…` | Who receives creator fees (default: the profile's wallet) |
+| `--tax 1` | Optional creator tax in percent, capped by Pons |
+| `--no-buyback` | Turn off buybacks from creator fees |
+| `--pair USDG` | Pair against an approved asset instead of ETH |
+| `--buy 0.02` | Buy your token in the same transaction (ETH pairs) |
+| `--dry-run [--from 0x…]` | Preview and simulate only |
+| `--yes` | Skip the confirmation prompt |
 
 ### Alpha & sharing
 
@@ -263,6 +302,7 @@ fomocli radar                     # 群体雷达：多个交易员同时买入�
 fomocli scan <代币地址>            # 防跑路扫描：综合风险评分 0–100
 fomocli card CryptoKaleo          # 生成可分享的交易员卡片（PNG）
 fomocli radar --notify telegram   # 把警报推送到 Telegram / Discord
+fomocli launch <handle> --dry-run # 把你的 fomo.family 资料在 Pons v2 上发行为代币（先模拟）
 ```
 
 ### 不联网也能用？
@@ -300,8 +340,8 @@ See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 `fomocli` is an independent, unofficial open-source project. It is not affiliated with, endorsed by,
 or sponsored by fomo.family or fomoapi.io. Data is provided by the FOMO API under its
-[terms](https://fomoapi.io/terms). Nothing here is financial advice. `fomocli` is read-only: it never
-places trades or touches wallet keys.
+[terms](https://fomoapi.io/terms). Nothing here is financial advice. `fomocli` only signs a transaction when you run `fomocli launch`
+and confirm it.
 
 ## License
 

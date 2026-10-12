@@ -158,6 +158,7 @@ func home() error {
 		{"fomocli radar", "alarm when traders swarm into a token"},
 		{"fomocli scan <token address>", "rug scanner: risk score with reasons"},
 		{"fomocli card CryptoKaleo", "shareable PNG card of a trader"},
+		{"fomocli launch <handle> --dry-run", "launch your profile as a token on Pons v2"},
 		{"fomocli lb --offline", "last leaderboard you saw, no internet"},
 	}
 	for _, e := range ex {
