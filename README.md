@@ -17,7 +17,7 @@ Leaderboards · wallets · PnL · positions · token flow · theses · live trad
 [![Go](https://img.shields.io/badge/go-1.23+-00ADD8?logo=go)](go.mod)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
-[English](#install) · [Bahasa Indonesia](#-bahasa-indonesia)
+[English](#install) · [中文](#-中文)
 
 </div>
 
@@ -203,51 +203,50 @@ The key is stored with `0600` permissions. Environment variables override the fi
 
 ---
 
-## 🇮🇩 Bahasa Indonesia
+## 🇨🇳 中文
 
-`fomo` adalah CLI untuk memakai data [fomo.family](https://fomo.family) langsung dari terminal -
-tanpa buka browser. Lihat trader yang lagi cuan, wallet aslinya, posisi, portofolio, alasan (thesis)
-mereka, dan pantau trade secara realtime.
+`fomo` 是一个命令行工具，让你直接在终端里使用 [fomo.family](https://fomo.family) 的数据，无需打开浏览器。
+查看正在盈利的交易员、他们的真实钱包、持仓、投资组合和交易理由（thesis），并实时跟踪交易。
 
-### Instal
+### 安装
 
 ```sh
 curl -fsSL https://raw.githubusercontent.com/FomoCLI/FomoCLI/main/scripts/install.sh | sh
-# atau
+# 或者
 go install github.com/FomoCLI/FomoCLI/cmd/fomo@latest
 ```
 
-### Mulai
+### 快速开始
 
 ```sh
-fomo --demo lb                 # coba dulu pakai data contoh, tanpa API key & tanpa internet
-fomo auth login                # masukkan API key (gratis di https://fomoapi.io/dashboard)
-fomo lb                        # leaderboard trader 24 jam
-fomo trader CryptoKaleo        # profil, wallet, PnL
-fomo t CryptoKaleo positions   # posisi open & closed + win rate
-fomo t CryptoKaleo balances    # portofolio multi-chain
-fomo tokens                    # token yang lagi ramai
-fomo live                      # feed trade realtime (gratis, 0 kredit)
-fomo watch frankdegods --bell  # pantau satu trader, bunyi saat dia trade
-fomo dash                      # dashboard layar penuh
+fomo --demo lb                 # 先用示例数据体验，无需 API key，也无需联网
+fomo auth login                # 输入 API key（免费获取：https://fomoapi.io/dashboard）
+fomo lb                        # 24 小时交易员排行榜
+fomo trader CryptoKaleo        # 个人资料、钱包、盈亏
+fomo t CryptoKaleo positions   # 未平仓和已平仓头寸 + 胜率
+fomo t CryptoKaleo balances    # 多链投资组合
+fomo tokens                    # 当前热门代币
+fomo live                      # 实时交易流（免费，0 积分）
+fomo watch frankdegods --bell  # 跟踪单个交易员，交易时响铃提醒
+fomo dash                      # 全屏仪表盘
 ```
 
-### Tanpa internet?
+### 不联网也能用？
 
-Datanya berasal dari FOMO API, jadi **pengambilan pertama butuh koneksi**. Setelah itu:
+数据来自 FOMO API，所以**第一次获取需要联网**。之后：
 
-- Semua respons otomatis disimpan di cache lokal.
-- `--offline` menampilkan data terakhir yang pernah kamu buka, **tanpa internet sama sekali**:
-  `fomo lb --offline`, `fomo t CryptoKaleo positions --offline`, `fomo live --offline`.
-- Kalau koneksi putus, `fomo` otomatis pakai cache dan memberi tahu umur datanya.
-- Perintah yang diulang dalam waktu TTL cache (default 60 detik) **tidak memakai kredit**.
-- `fomo --demo ...` jalan 100% offline dengan data contoh.
+- 所有响应都会自动保存到本地缓存。
+- `--offline` 显示你最近看过的数据，**完全不需要网络**：
+  `fomo lb --offline`、`fomo t CryptoKaleo positions --offline`、`fomo live --offline`。
+- 网络断开时，`fomo` 会自动使用缓存，并告诉你数据的时间。
+- 在缓存有效期内（默认 60 秒）重复执行命令**不消耗积分**。
+- `fomo --demo ...` 使用示例数据，可 100% 离线运行。
 
-### Tips
+### 小技巧
 
-- Tambahkan `--json` di perintah apa pun untuk output JSON (bisa di-pipe ke `jq`).
-- Biaya kredit tiap perintah tampil di bawah output (`⚡ 250 credits · 249,750 left`).
-- `fomo cache ls` untuk melihat apa saja yang tersedia offline.
+- 任何命令加上 `--json` 即可输出 JSON（可以通过管道传给 `jq`）。
+- 每条命令的积分消耗会显示在输出底部（`⚡ 250 credits · 249,750 left`）。
+- 用 `fomo cache ls` 查看哪些数据可以离线使用。
 
 ---
 
