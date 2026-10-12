@@ -1,0 +1,2 @@
+{"available":true,"nextCursor":null,"positions":[
+{"tradeId":"b1c2d3e4-0000-4000-8000-000000000009","token":{"symbol":"BONK","address":"DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263"},"chain":"solana","status":"closed","amount":0,"avgEntryPrice":0.000021,"avgExitPrice":0.000034,"realizedPnlUsd":3300,"unrealizedPnlUsd":0,"costBasisUsd":5000,"createdAt":"2026-10-01T10:00:00Z","closedAt":"2026-10-02T10:00:00Z"}]}

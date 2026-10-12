@@ -1,0 +1,36 @@
+version: 2
+project_name: fomo
+
+before:
+  hooks:
+    - go mod tidy
+
+builds:
+  - id: fomo
+    main: ./cmd/fomo
+    binary: fomo
+    env: [CGO_ENABLED=0]
+    goos: [linux, darwin, windows]
+    goarch: [amd64, arm64]
+    flags: [-trimpath]
+    ldflags:
+      - -s -w
+      - -X github.com/FomoCLI/FomoCLI/internal/cli.Version={{.Version}}
+      - -X github.com/FomoCLI/FomoCLI/internal/cli.Commit={{.ShortCommit}}
+      - -X github.com/FomoCLI/FomoCLI/internal/cli.Date={{.Date}}
+
+archives:
+  - formats: [tar.gz]
+    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    format_overrides:
+      - goos: windows
+        formats: [zip]
+    files: [README.md, LICENSE]
+
+checksum:
+  name_template: checksums.txt
+
+changelog:
+  sort: asc
+  filters:
+    exclude: ["^docs:", "^test:", "^chore:"]

@@ -1,0 +1,4 @@
+{"alerts":[
+{"type":"alert","alertType":"buy","source":"feed","eventId":"e1","userId":"6dcf7c78-2537-522a-8307-3f9970c081be","tradeId":"a323b5ca-c769-4b07-a422-833c4cafbe1f","trader":"frankdegods","token":"PONS","tokenAddress":"0x39dbed3a77c1b2e0f11e6c0b8c7b9e0a1f2d3c4b","chainId":4663,"chain":"robinhood","usdValue":40000,"text":"frankdegods bought $PONS ($40K size)","ts":1791780000000},
+{"type":"alert","alertType":"sell","source":"feed","eventId":"e2","trader":"CryptoKaleo","token":"WIF","tokenAddress":"EKpQGSJtjMFqKZ9KQanSqYXRcF8fBopzLHYxdM65zcjm","chainId":1399811149,"chain":"solana","usdValue":6100,"text":"CryptoKaleo sold $WIF","ts":1791779900000},
+{"type":"alert","alertType":"thesis","source":"feed","eventId":"e3","trader":"starcatcher444","token":"CACHE","tokenAddress":"0x51fb","chainId":4663,"chain":"robinhood","usdValue":0,"text":"cache is the next pons, dev is based","ts":1791779800000}]}

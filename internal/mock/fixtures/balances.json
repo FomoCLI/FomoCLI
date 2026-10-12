@@ -1,0 +1,8 @@
+{"handle":"CryptoKaleo","totalValueUsd":184220,"byChain":{"robinhood":{"holdings":2,"valueUsd":121000},"solana":{"holdings":3,"valueUsd":58220},"base":{"holdings":1,"valueUsd":5000}},
+"livePerpPnl":{"totalPnl":-420.5},
+"holdings":[
+{"token":{"symbol":"PONS","address":"0x39dbed3a77c1b2e0f11e6c0b8c7b9e0a1f2d3c4b","networkId":4663},"chain":"robinhood","amount":20000000,"priceUsd":0.004812,"valueUsd":96240,"change24h":38.4},
+{"token":{"symbol":"SOL","address":"So11111111111111111111111111111111111111112","networkId":1399811149},"chain":"solana","amount":240,"priceUsd":182.4,"valueUsd":43776,"change24h":-2.1},
+{"token":{"symbol":"CACHE","address":"0x51fb76aa00bb11cc22dd33ee44ff556677889900","networkId":4663},"chain":"robinhood","amount":10718000000,"priceUsd":0.00000231,"valueUsd":24760,"change24h":-12.7},
+{"token":{"symbol":"WIF","address":"EKpQGSJtjMFqKZ9KQanSqYXRcF8fBopzLHYxdM65zcjm","networkId":1399811149},"chain":"solana","amount":6565,"priceUsd":2.2,"valueUsd":14444,"change24h":1.3},
+{"token":{"symbol":"DEGEN","address":"0x4ed4e862860bed51a9570b96d89af5e1b0efefed","networkId":8453},"chain":"base","amount":1000000,"priceUsd":0.005,"valueUsd":5000,"change24h":0.4}]}

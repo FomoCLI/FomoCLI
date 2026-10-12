@@ -1,0 +1,5 @@
+{"address":"0x39dbed3a77c1b2e0f11e6c0b8c7b9e0a1f2d3c4b","holders":4120,"top10HoldersPercent":31.4,"windows":{
+"5m":{"buys":42,"sells":18,"uniqueBuyers":30,"uniqueSellers":15,"buyVolumeUsd":21000,"sellVolumeUsd":8000,"netVolumeUsd":13000,"buySellRatio":2.33},
+"1h":{"buys":410,"sells":300,"uniqueBuyers":220,"uniqueSellers":180,"buyVolumeUsd":180000,"sellVolumeUsd":150000,"netVolumeUsd":30000,"buySellRatio":1.37},
+"4h":{"buys":1200,"sells":1300,"uniqueBuyers":600,"uniqueSellers":640,"buyVolumeUsd":510000,"sellVolumeUsd":560000,"netVolumeUsd":-50000,"buySellRatio":0.92},
+"24h":{"buys":5000,"sells":0,"uniqueBuyers":2000,"uniqueSellers":0,"buyVolumeUsd":2100000,"sellVolumeUsd":0,"netVolumeUsd":2100000,"buySellRatio":null}}}

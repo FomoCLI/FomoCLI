@@ -1,0 +1,1 @@
+{"status":"operational","updatedAt":"2026-10-12T06:33:21.199Z","components":{"api":{"status":"operational"},"liveData":{"status":"operational","successRate":0.98},"alertStream":{"status":"operational","lastEventSecondsAgo":4},"onchainStream":{"status":"operational","plans":["growth","scale"]}}}
