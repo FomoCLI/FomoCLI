@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="docs/logo.jpg" alt="FomoCLI" width="220">
+<img src="docs/banner.png" alt="FomoCLI" width="100%">
 
 # FomoCLI
 
