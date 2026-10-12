@@ -1,6 +1,6 @@
 // Package mock is an in-process stand-in for FOMO API, serving sample payloads
 // shaped like the examples in https://fomoapi.io/docs. It backs the test suite
-// and `fomo --demo`, so the CLI can be tried without a key or a connection.
+// and `fomocli --demo`, so the CLI can be tried without a key or a connection.
 package mock
 
 import (

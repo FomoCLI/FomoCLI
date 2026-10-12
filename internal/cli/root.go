@@ -1,4 +1,4 @@
-// Package cli wires fomo's commands together.
+// Package cli wires fomocli's commands together.
 package cli
 
 import (
@@ -59,7 +59,7 @@ const (
 // NewRoot builds the command tree.
 func NewRoot() *cobra.Command {
 	root := &cobra.Command{
-		Use:   "fomo",
+		Use:   "fomocli",
 		Short: "fomo.family in your terminal - traders, PnL, tokens, theses and live trades",
 		Long: ui.Banner(Version) + `
 Track fomo.family traders from the command line: leaderboards, wallets, PnL,
@@ -78,7 +78,7 @@ affiliated with fomo.family.`,
 		},
 	}
 	root.Version = fmt.Sprintf("%s (commit %s, built %s)", Version, Commit, Date)
-	root.SetVersionTemplate("fomo {{.Version}}\n")
+	root.SetVersionTemplate("fomocli {{.Version}}\n")
 
 	pf := root.PersistentFlags()
 	pf.BoolVarP(&g.json, "json", "j", false, "print raw JSON (pipe into jq)")
@@ -130,7 +130,7 @@ func setup() error {
 		base = strings.TrimRight(g.baseURL, "/")
 	}
 	client = api.New(base, key)
-	client.UserAgent = "fomo-cli/" + Version
+	client.UserAgent = "fomocli/" + Version
 	client.TTL = cfg.ResolvedTTL()
 	if st, err := cache.Default(); err == nil {
 		client.Cache = st
@@ -138,7 +138,7 @@ func setup() error {
 	if g.demo {
 		srv := mock.Start()
 		client.BaseURL, client.Key = srv.URL, "demo"
-		client.Cache = &cache.Store{Dir: filepath.Join(os.TempDir(), "fomo-demo-cache")}
+		client.Cache = &cache.Store{Dir: filepath.Join(os.TempDir(), "fomocli-demo-cache")}
 		fmt.Fprintln(ui.Err, ui.BadgeW.Render("DEMO")+ui.Muted.Render(" sample data, not live - drop --demo for the real thing"))
 	}
 	switch {

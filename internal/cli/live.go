@@ -40,14 +40,14 @@ func liveCmd() *cobra.Command {
                         ~3.5s before the app. Growth & Scale plans only.
 
 Streams cost zero credits. Every event is also recorded locally, so
-'fomo live --offline' replays the most recent ones without a connection.`,
-		Example: `  fomo live
-  fomo live --chain robinhood --min-usd 5000 --bell
-  fomo live --trader frankdegods
-  fomo live --type thesis
-  fomo live --onchain --chain solana --side buy
-  fomo live --json | jq -c 'select(.usdValue > 10000)'
-  fomo live --offline -n 50          # replay recorded events, no internet`,
+'fomocli live --offline' replays the most recent ones without a connection.`,
+		Example: `  fomocli live
+  fomocli live --chain robinhood --min-usd 5000 --bell
+  fomocli live --trader frankdegods
+  fomocli live --type thesis
+  fomocli live --onchain --chain solana --side buy
+  fomocli live --json | jq -c 'select(.usdValue > 10000)'
+  fomocli live --offline -n 50          # replay recorded events, no internet`,
 		Args: cobra.NoArgs,
 		RunE: func(cmd *cobra.Command, args []string) error { return runLive(cmd, o) },
 	}
@@ -72,7 +72,7 @@ func watchCmd() *cobra.Command {
 		Use:     "watch <handle>",
 		Aliases: []string{"follow", "copy"},
 		Short:   "Follow one trader's buys, sells and theses live",
-		Example: "  fomo watch frankdegods\n  fomo watch frankdegods --chain robinhood --bell",
+		Example: "  fomocli watch frankdegods\n  fomocli watch frankdegods --chain robinhood --bell",
 		Args:    cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			o.trader = cleanHandle(args[0])
@@ -133,7 +133,7 @@ func runLive(cmd *cobra.Command, o liveOpts) error {
 		}
 		p("\n  " + ui.Logo() + " " + ui.Bold.Render("live") + ui.Muted.Render(" · "+src+" · "+fs+" · ctrl+c to stop"))
 		if client.Key == "" {
-			p("  " + ui.Gold.Render("no API key: the app feed is 60s delayed. `fomo auth login` for realtime."))
+			p("  " + ui.Gold.Render("no API key: the app feed is 60s delayed. `fomocli auth login` for realtime."))
 		}
 		p()
 	}
@@ -335,7 +335,7 @@ func readLines(path string) []string {
 func replayRecorded(r *recorder, o liveOpts) error {
 	lines := readLines(r.path)
 	if len(lines) == 0 {
-		return fmt.Errorf("%w (no recorded live events yet - run `fomo live` online first)", api.ErrNotCached)
+		return fmt.Errorf("%w (no recorded live events yet - run `fomocli live` online first)", api.ErrNotCached)
 	}
 	var shown []jx.V
 	var raws []string
@@ -403,9 +403,9 @@ func alertsCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "alerts",
 		Short: "Recent buys, sells & theses (REST snapshot of the feed, 125 credits)",
-		Example: `  fomo alerts
-  fomo alerts --type whale --chain robinhood
-  fomo alerts --trader frankdegods -n 50`,
+		Example: `  fomocli alerts
+  fomocli alerts --type whale --chain robinhood
+  fomocli alerts --trader frankdegods -n 50`,
 		Args: cobra.NoArgs,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if chain == "" {
@@ -425,7 +425,7 @@ func alertsCmd() *cobra.Command {
 				if len(rows) == 0 {
 					p("  " + ui.Muted.Render("(no alerts)"))
 				}
-				p("\n  " + ui.Muted.Render("stream these live for 0 credits: ") + ui.Bold.Render("fomo live"))
+				p("\n  " + ui.Muted.Render("stream these live for 0 credits: ") + ui.Bold.Render("fomocli live"))
 			})
 		},
 	}

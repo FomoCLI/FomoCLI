@@ -142,24 +142,24 @@ func home() error {
 	}
 	if key == "" {
 		p("  " + ui.BadgeW.Render("NO KEY") + "  Get a free key (250k credits/mo) at " + ui.Cyan.Render("https://fomoapi.io/dashboard"))
-		p("          then run " + ui.Bold.Render("fomo auth login"))
+		p("          then run " + ui.Bold.Render("fomocli auth login"))
 	} else {
 		p("  " + ui.Badge.Render("READY") + "  key " + ui.Muted.Render(maskKey(key)+" from "+src))
 	}
 	p(ui.Section("Try"))
 	p()
 	ex := [][2]string{
-		{"fomo lb 24h", "top traders by PnL today"},
-		{"fomo trader CryptoKaleo", "profile, wallets & PnL of a trader"},
-		{"fomo trader CryptoKaleo positions", "their open & closed positions"},
-		{"fomo tokens trending", "what FOMO users trade right now"},
-		{"fomo live --chain solana", "streaming trade ticker"},
-		{"fomo dash", "full-screen interactive dashboard"},
-		{"fomo lb --offline", "last leaderboard you saw, no internet"},
+		{"fomocli lb 24h", "top traders by PnL today"},
+		{"fomocli trader CryptoKaleo", "profile, wallets & PnL of a trader"},
+		{"fomocli trader CryptoKaleo positions", "their open & closed positions"},
+		{"fomocli tokens trending", "what FOMO users trade right now"},
+		{"fomocli live --chain solana", "streaming trade ticker"},
+		{"fomocli dash", "full-screen interactive dashboard"},
+		{"fomocli lb --offline", "last leaderboard you saw, no internet"},
 	}
 	for _, e := range ex {
-		pf("  %s  %s\n", ui.Accent.Render(fmt.Sprintf("%-36s", "$ "+e[0])), ui.Muted.Render(e[1]))
+		pf("  %s  %s\n", ui.Accent.Render(fmt.Sprintf("%-42s", "$ "+e[0])), ui.Muted.Render(e[1]))
 	}
-	p("\n  " + ui.Muted.Render("All commands: ") + ui.Bold.Render("fomo --help") + ui.Muted.Render("   ·   Docs: https://fomoapi.io/docs"))
+	p("\n  " + ui.Muted.Render("All commands: ") + ui.Bold.Render("fomocli --help") + ui.Muted.Render("   ·   Docs: https://fomoapi.io/docs"))
 	return nil
 }

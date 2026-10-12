@@ -6,12 +6,16 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+### Changed
+- The command is now `fomocli` (was `fomo`); config and cache live under `fomocli/`.
+- New look matching the FomoCLI logo: ice white on near-black, FOMOCLI banner.
+
 ### Added
-- `fomo leaderboard`, `tokens`, `token`, `activity`, `search`, `theses` market commands.
-- `fomo trader <handle> [profile|positions|swaps|balances|following|followers|spotlight|theses]`, `whois`, `trade`.
-- `fomo live` / `fomo watch` realtime ticker over the app-feed and on-chain WebSockets, with auto-reconnect.
-- `fomo dash` full-screen interactive dashboard.
+- `fomocli leaderboard`, `tokens`, `token`, `activity`, `search`, `theses` market commands.
+- `fomocli trader <handle> [profile|positions|swaps|balances|following|followers|spotlight|theses]`, `whois`, `trade`.
+- `fomocli live` / `fomocli watch` realtime ticker over the app-feed and on-chain WebSockets, with auto-reconnect.
+- `fomocli dash` full-screen interactive dashboard.
 - Offline cache: every response is stored locally; `--offline` replays it, network failures fall back to it automatically, and repeated calls within the TTL cost 0 credits.
-- Live events are recorded locally for `fomo live --offline` replay.
+- Live events are recorded locally for `fomocli live --offline` replay.
 - `--json` on every command, scriptable exit codes, credit usage footer.
 - `--demo` mode with built-in sample data.

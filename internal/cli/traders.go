@@ -46,13 +46,13 @@ func traderCmd() *cobra.Command {
   theses     everything they wrote, newest first
 
 The handle is case-insensitive and may start with @. A userId works everywhere
-except 'profile' (it is resolved via 'fomo whois' automatically).`,
-		Example: `  fomo trader CryptoKaleo
-  fomo t @frankdegods positions --status open
-  fomo t frankdegods positions --all --pages 4      # walk older history
-  fomo t frankdegods balances --chain robinhood
-  fomo t frankdegods following --sort pnl
-  fomo t frankdegods theses --sort likes`,
+except 'profile' (it is resolved via 'fomocli whois' automatically).`,
+		Example: `  fomocli trader CryptoKaleo
+  fomocli t @frankdegods positions --status open
+  fomocli t frankdegods positions --all --pages 4      # walk older history
+  fomocli t frankdegods balances --chain robinhood
+  fomocli t frankdegods following --sort pnl
+  fomocli t frankdegods theses --sort likes`,
 		Args: cobra.RangeArgs(1, 2),
 		ValidArgsFunction: func(cmd *cobra.Command, args []string, _ string) ([]string, cobra.ShellCompDirective) {
 			if len(args) == 1 {
@@ -225,9 +225,9 @@ func renderProfile(v jx.V) {
 		who = v.First("userId").Str()
 	}
 	p("\n  " + ui.Muted.Render("Next: ") + strings.Join([]string{
-		ui.Bold.Render("fomo t " + who + " positions"),
+		ui.Bold.Render("fomocli t " + who + " positions"),
 		ui.Bold.Render("balances"), ui.Bold.Render("following"), ui.Bold.Render("spotlight"),
-	}, ui.Muted.Render(" · ")) + ui.Muted.Render("  ·  live: ") + ui.Bold.Render("fomo watch "+who))
+	}, ui.Muted.Render(" · ")) + ui.Muted.Render("  ·  live: ") + ui.Bold.Render("fomocli watch "+who))
 }
 
 // ---------------------------------------------------------------- positions / swaps
@@ -292,7 +292,7 @@ func traderPaged(cmd *cobra.Command, who, kind string, o traderOpts) error {
 	} else {
 		renderTradeList(last.Data, rows, who, kind, o)
 		if cursor != "" {
-			p("\n  " + ui.Muted.Render("more history: ") + ui.Bold.Render(fmt.Sprintf("fomo t %s %s --all --cursor %s", who, kind, cursor)))
+			p("\n  " + ui.Muted.Render("more history: ") + ui.Bold.Render(fmt.Sprintf("fomocli t %s %s --all --cursor %s", who, kind, cursor)))
 		}
 	}
 	if spent > 0 {
@@ -382,7 +382,7 @@ func renderTradeList(v jx.V, rows []jx.V, who, kind string, o traderOpts) {
 		p("\n  " + ui.Gold.Render("partial: some chains did not answer in time - ask again for the rest"))
 	}
 	note(v)
-	p("\n  " + ui.Muted.Render("● open  ○ closed  ·  detail: ") + ui.Bold.Render("fomo trade <trade id>"))
+	p("\n  " + ui.Muted.Render("● open  ○ closed  ·  detail: ") + ui.Bold.Render("fomocli trade <trade id>"))
 }
 
 func renderSwaps(rows []jx.V, who string) {
@@ -551,7 +551,7 @@ func renderSpotlight(v jx.V, who string) {
 				}
 			}
 			if id := r.Get("tradeId").Str(); id != "" {
-				p("    " + ui.Muted.Render("fomo trade "+id))
+				p("    " + ui.Muted.Render("fomocli trade "+id))
 			}
 		}
 	}
@@ -566,7 +566,7 @@ func whoisCmd() *cobra.Command {
 	return &cobra.Command{
 		Use:     "whois <userId>",
 		Short:   "Turn a FOMO userId back into a trader (2,500 credits)",
-		Example: "  fomo whois 1f08e6ab-5c73-5443-9225-bfc496cde51f",
+		Example: "  fomocli whois 1f08e6ab-5c73-5443-9225-bfc496cde51f",
 		Args:    cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			return show(cmd, "resolving userId", func(ctx context.Context) (*api.Response, error) {
@@ -583,8 +583,8 @@ func tradeCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "trade <tradeId> [comments]",
 		Short: "One trade in full: swaps, entry/exit, PnL, thesis thread",
-		Example: `  fomo trade a323b5ca-c769-4b07-a422-833c4cafbe1f
-  fomo trade a323b5ca-c769-4b07-a422-833c4cafbe1f comments`,
+		Example: `  fomocli trade a323b5ca-c769-4b07-a422-833c4cafbe1f
+  fomocli trade a323b5ca-c769-4b07-a422-833c4cafbe1f comments`,
 		Args: cobra.RangeArgs(1, 2),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			id := args[0]
@@ -646,7 +646,7 @@ func renderTrade(v jx.V) {
 		p()
 		renderLegs(tr)
 	}
-	p("\n  " + ui.Muted.Render("thread: ") + ui.Bold.Render("fomo trade "+v.First("tradeId").Str()+" comments"))
+	p("\n  " + ui.Muted.Render("thread: ") + ui.Bold.Render("fomocli trade "+v.First("tradeId").Str()+" comments"))
 }
 
 func renderLegs(rows []jx.V) {
@@ -693,5 +693,5 @@ func renderComments(v jx.V) {
 			walk(r, 0)
 		}
 	}
-	p("\n  " + ui.Muted.Render("authors are userIds - resolve with ") + ui.Bold.Render("fomo whois <userId>"))
+	p("\n  " + ui.Muted.Render("authors are userIds - resolve with ") + ui.Bold.Render("fomocli whois <userId>"))
 }

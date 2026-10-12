@@ -205,7 +205,7 @@ func TestLiveStreamAndReplay(t *testing.T) {
 func TestHomeAndHelp(t *testing.T) {
 	setupEnv(t, "")
 	out, _, code := run(t, nil)
-	if code != 0 || !strings.Contains(out, "fomo auth login") {
+	if code != 0 || !strings.Contains(out, "fomocli auth login") {
 		t.Errorf("home screen: %s", out)
 	}
 	out, _, _ = run(t, nil, "--help")

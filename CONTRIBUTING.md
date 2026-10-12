@@ -1,6 +1,6 @@
 # Contributing
 
-Thanks for helping make `fomo` better!
+Thanks for helping make `fomocli` better!
 
 ## Setup
 
@@ -20,7 +20,7 @@ examples in the [FOMO API docs](https://fomoapi.io/docs).
 
 | Path | What lives there |
 |------|------------------|
-| `cmd/fomo` | `main` - just calls `cli.Execute()` |
+| `cmd/fomocli` | `main` - just calls `cli.Execute()` |
 | `internal/cli` | Cobra commands and their renderers |
 | `internal/api` | HTTP + WebSocket client, credit tracking, cache modes |
 | `internal/cache` | On-disk response store behind `--offline` |

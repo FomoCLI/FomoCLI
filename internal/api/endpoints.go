@@ -148,7 +148,7 @@ func (c *Client) Alerts(ctx context.Context, p Params) (*Response, error) {
 	return c.Get(ctx, "/v2/alerts", p.values())
 }
 
-// Raw performs a GET against any path - the escape hatch behind `fomo api`.
+// Raw performs a GET against any path - the escape hatch behind `fomocli api`.
 func (c *Client) Raw(ctx context.Context, path string, q url.Values) (*Response, error) {
 	return c.Get(ctx, path, q)
 }

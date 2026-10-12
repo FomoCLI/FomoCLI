@@ -34,9 +34,9 @@ func authCmd() *cobra.Command {
 	login := &cobra.Command{
 		Use:   "login",
 		Short: "Save an API key (get a free one at fomoapi.io/dashboard)",
-		Example: `  fomo auth login
-  fomo auth login --with-key sk_live_xxx
-  echo $KEY | fomo auth login --with-key -`,
+		Example: `  fomocli auth login
+  fomocli auth login --with-key sk_live_xxx
+  echo $KEY | fomocli auth login --with-key -`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			key := strings.TrimSpace(keyFlag)
 			if key == "-" {
@@ -92,7 +92,7 @@ func authCmd() *cobra.Command {
 			}
 			path, _ := config.Path()
 			p("  " + ui.Badge.Render("LOGGED IN") + "  key " + ui.Muted.Render(maskKey(key)) + " saved to " + ui.Muted.Render(path))
-			p("  Next: " + ui.Bold.Render("fomo lb") + ui.Muted.Render("  or  ") + ui.Bold.Render("fomo dash"))
+			p("  Next: " + ui.Bold.Render("fomocli lb") + ui.Muted.Render("  or  ") + ui.Bold.Render("fomocli dash"))
 			return nil
 		},
 	}
@@ -108,7 +108,7 @@ func authCmd() *cobra.Command {
 				key, src = g.key, "--key flag"
 			}
 			if key == "" {
-				p("  " + ui.BadgeW.Render("LOGGED OUT") + "  run " + ui.Bold.Render("fomo auth login"))
+				p("  " + ui.BadgeW.Render("LOGGED OUT") + "  run " + ui.Bold.Render("fomocli auth login"))
 				return nil
 			}
 			path, _ := config.Path()
@@ -187,7 +187,7 @@ func configCmd() *cobra.Command {
 	set := &cobra.Command{
 		Use:       "set <key> <value>",
 		Short:     "Change one setting",
-		Example:   "  fomo config set cache_ttl 5m\n  fomo config set default_window 7d",
+		Example:   "  fomocli config set cache_ttl 5m\n  fomocli config set default_window 7d",
 		Args:      cobra.ExactArgs(2),
 		ValidArgs: config.SortedKeys(),
 		RunE: func(cmd *cobra.Command, args []string) error {
@@ -366,8 +366,8 @@ func cacheCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "cache",
 		Short: "Manage the offline cache",
-		Long: `Every response fomo receives is saved locally. Within the cache TTL
-(default 60s, see 'fomo config set cache_ttl') repeated commands are served
+		Long: `Every response fomocli receives is saved locally. Within the cache TTL
+(default 60s, see 'fomocli config set cache_ttl') repeated commands are served
 from disk for 0 credits; with --offline any command shows the last data seen.`,
 	}
 	ls := &cobra.Command{
@@ -443,9 +443,9 @@ func apiCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "api <path>",
 		Short: "Call any endpoint and print the JSON (escape hatch)",
-		Example: `  fomo api /v1
-  fomo api /v2/users/CryptoKaleo/swaps -p limit=10
-  fomo api /v2/thesis -p sort=equity -p minEquity=100000 | jq '.theses[0]'`,
+		Example: `  fomocli api /v1
+  fomocli api /v2/users/CryptoKaleo/swaps -p limit=10
+  fomocli api /v2/thesis -p sort=equity -p minEquity=100000 | jq '.theses[0]'`,
 		Args: cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			q := url.Values{}

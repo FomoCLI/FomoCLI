@@ -7,11 +7,11 @@ labels: bug
 **Command**
 
 ```
-fomo ...
+fomocli ...
 ```
 
 **What happened** (paste the output; `--json` output helps for rendering bugs - remove anything private)
 
 **What you expected**
 
-**Environment** - output of `fomo version`, terminal and OS:
+**Environment** - output of `fomocli version`, terminal and OS:

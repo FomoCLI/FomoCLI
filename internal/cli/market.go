@@ -25,10 +25,10 @@ func leaderboardCmd() *cobra.Command {
 		Use:     "leaderboard [24h|7d|30d|all]",
 		Aliases: []string{"lb", "top"},
 		Short:   "Top traders ranked by PnL",
-		Example: `  fomo lb               # 24h board (or your default_window)
-  fomo lb 7d -n 20
-  fomo lb all --sort volume
-  fomo lb --json | jq '.traders[] | {handle, pnlUsd}'`,
+		Example: `  fomocli lb               # 24h board (or your default_window)
+  fomocli lb 7d -n 20
+  fomocli lb all --sort volume
+  fomocli lb --json | jq '.traders[] | {handle, pnlUsd}'`,
 		Args:      cobra.MaximumNArgs(1),
 		ValidArgs: []string{"24h", "7d", "30d", "all"},
 		RunE: func(cmd *cobra.Command, args []string) error {
@@ -112,7 +112,7 @@ func renderLeaderboard(v jx.V, window, sortBy string, verifiedOnly bool) {
 			ui.USD(r.Get("volumeUsd")), ui.Int(r.Get("trades")), ui.Compact(r.Get("followers").Num()), ui.Int(r.Get("holdings")))
 	}
 	pf("%s", t.Render())
-	p("\n  " + ui.Muted.Render("Drill in: ") + ui.Bold.Render("fomo trader <handle>") + ui.Muted.Render("  ·  positions: ") + ui.Bold.Render("fomo trader <handle> positions"))
+	p("\n  " + ui.Muted.Render("Drill in: ") + ui.Bold.Render("fomocli trader <handle>") + ui.Muted.Render("  ·  positions: ") + ui.Bold.Render("fomocli trader <handle> positions"))
 }
 
 func captured(v jx.V) string {
@@ -144,7 +144,7 @@ func tokensCmd() *cobra.Command {
   trending   what FOMO users are actively trading right now
   most-held  tokens the most users hold (dominated by large caps)
   graduated  early-stage graduated tokens (typically < $1M mcap)`,
-		Example:   "  fomo tokens\n  fomo tokens graduated -n 10",
+		Example:   "  fomocli tokens\n  fomocli tokens graduated -n 10",
 		Args:      cobra.MaximumNArgs(1),
 		ValidArgs: boards,
 		RunE: func(cmd *cobra.Command, args []string) error {
@@ -211,7 +211,7 @@ func renderTokenBoard(v jx.V, board string) {
 			ui.USD(r.Get("marketCapUsd")), holders, ui.Chain(ui.ChainName(chain)), ui.Muted.Render(ui.Short(tok.Get("address").Str())))
 	}
 	pf("%s", t.Render())
-	p("\n  " + ui.Muted.Render("Analyze one: ") + ui.Bold.Render("fomo token <address>"))
+	p("\n  " + ui.Muted.Render("Analyze one: ") + ui.Bold.Render("fomocli token <address>"))
 }
 
 // ---------------------------------------------------------------- token
@@ -234,10 +234,10 @@ func tokenCmd() *cobra.Command {
   holders  which tracked traders hold it (smart money)
   theses   what traders wrote about it (1,250 credits per page)
 
-Tip: find an address with 'fomo search <symbol>' or 'fomo tokens'.`,
-		Example: `  fomo token 0x39dbed3a...
-  fomo token Fu2oZoGxFtCDp29NKA4A89xcn255khq9xbxG7Mmtpump devs --network 1399811149
-  fomo token <mint> theses --sort likes --threshold 1000`,
+Tip: find an address with 'fomocli search <symbol>' or 'fomocli tokens'.`,
+		Example: `  fomocli token 0x39dbed3a...
+  fomocli token Fu2oZoGxFtCDp29NKA4A89xcn255khq9xbxG7Mmtpump devs --network 1399811149
+  fomocli token <mint> theses --sort likes --threshold 1000`,
 		Args: cobra.RangeArgs(1, 2),
 		ValidArgsFunction: func(cmd *cobra.Command, args []string, _ string) ([]string, cobra.ShellCompDirective) {
 			if len(args) == 1 {
@@ -390,8 +390,8 @@ func thesesCmd() *cobra.Command {
 		Aliases: []string{"thesis", "why"},
 		Short:   "Recent theses - the reasoning behind trades",
 		Long: `The global thesis feed across all coins. For a single coin use
-'fomo token <address> theses', for one trader 'fomo trader <handle> theses'.`,
-		Example: "  fomo theses\n  fomo theses --chain robinhood\n  fomo theses --sort equity --min-equity 100000",
+'fomocli token <address> theses', for one trader 'fomocli trader <handle> theses'.`,
+		Example: "  fomocli theses\n  fomocli theses --chain robinhood\n  fomocli theses --sort equity --min-equity 100000",
 		Args:    cobra.NoArgs,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if chain == "" {
@@ -486,7 +486,7 @@ func activityCmd() *cobra.Command {
 		Use:     "activity",
 		Aliases: []string{"swarm", "multi"},
 		Short:   "Coordinated flow: several traders hitting one coin at once",
-		Example: "  fomo activity\n  fomo activity --side buy --min-traders 3",
+		Example: "  fomocli activity\n  fomocli activity --side buy --min-traders 3",
 		Args:    cobra.NoArgs,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			params := api.Params{"side": side, "minTraders": api.Itoa(minTraders), "limit": api.Itoa(limit)}
@@ -545,7 +545,7 @@ func searchCmd() *cobra.Command {
 		Use:     "search <query>",
 		Aliases: []string{"s", "find"},
 		Short:   "Find traders and tokens by name",
-		Example: "  fomo search ansem\n  fomo search pons --tokens\n  fomo search ether --type traders",
+		Example: "  fomocli search ansem\n  fomocli search pons --tokens\n  fomocli search ether --type traders",
 		Args:    cobra.MinimumNArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			q := strings.Join(args, " ")

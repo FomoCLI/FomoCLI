@@ -83,7 +83,7 @@ func (e *APIError) Error() string {
 func (e *APIError) Hint() string {
 	switch e.Status {
 	case 401:
-		return "Set your key with `fomo auth login` (free key: https://fomoapi.io/dashboard)."
+		return "Set your key with `fomocli auth login` (free key: https://fomoapi.io/dashboard)."
 	case 402:
 		u := e.UpgradeURL
 		if u == "" {
@@ -91,11 +91,11 @@ func (e *APIError) Hint() string {
 		}
 		return "Out of credits. Top up or upgrade at " + u + " - or use --offline to browse cached data."
 	case 404:
-		return "Not found - check the handle, id or address. Try `fomo search <name>`."
+		return "Not found - check the handle, id or address. Try `fomocli search <name>`."
 	case 429:
 		return "Rate limited on a keyless endpoint. Wait a minute or add an API key."
 	case 503:
-		return "FOMO's live read timed out. Retrying in a few seconds usually works. See `fomo status`."
+		return "FOMO's live read timed out. Retrying in a few seconds usually works. See `fomocli status`."
 	}
 	return ""
 }
@@ -116,7 +116,7 @@ func New(baseURL, key string) *Client {
 		Key:       key,
 		HTTP:      &http.Client{Timeout: 30 * time.Second},
 		TTL:       60 * time.Second,
-		UserAgent: "fomo-cli",
+		UserAgent: "fomocli",
 		Retries:   1,
 	}
 }

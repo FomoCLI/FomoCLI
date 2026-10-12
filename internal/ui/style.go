@@ -1,4 +1,4 @@
-// Package ui holds fomo's terminal look: palette, formatters, tables, cards,
+// Package ui holds fomocli's terminal look: palette, formatters, tables, cards,
 // the banner and the spinner.
 package ui
 
@@ -11,21 +11,25 @@ import (
 	"github.com/muesli/termenv"
 )
 
-// Palette - neon on dark, in the spirit of the FOMO app.
+// Palette - taken from the FomoCLI logo: ice white on near-black, with cool
+// greys for secondary text. Green and red are kept strictly for gains/losses.
 var (
-	ColGreen  = lipgloss.AdaptiveColor{Light: "#008a3e", Dark: "#39ff88"}
-	ColRed    = lipgloss.AdaptiveColor{Light: "#c4153a", Dark: "#ff4d6d"}
-	ColAccent = lipgloss.AdaptiveColor{Light: "#6b2bd9", Dark: "#b388ff"}
-	ColPink   = lipgloss.AdaptiveColor{Light: "#c2187a", Dark: "#ff5fd2"}
-	ColGold   = lipgloss.AdaptiveColor{Light: "#9a6700", Dark: "#ffd166"}
-	ColCyan   = lipgloss.AdaptiveColor{Light: "#00728f", Dark: "#5ce1ff"}
-	ColMuted  = lipgloss.AdaptiveColor{Light: "#6b7280", Dark: "#7c8591"}
-	ColText   = lipgloss.AdaptiveColor{Light: "#111827", Dark: "#e6edf3"}
-	ColBorder = lipgloss.AdaptiveColor{Light: "#c9cfd6", Dark: "#3a4250"}
+	ColIce    = lipgloss.AdaptiveColor{Light: "#0b0d1a", Dark: "#eef1fc"} // logo white
+	ColSteel  = lipgloss.AdaptiveColor{Light: "#3b4266", Dark: "#b4bbdc"} // secondary
+	ColGreen  = lipgloss.AdaptiveColor{Light: "#0f8a4b", Dark: "#5ee6a0"}
+	ColRed    = lipgloss.AdaptiveColor{Light: "#c4243f", Dark: "#ff6b81"}
+	ColAccent = ColIce
+	ColPink   = lipgloss.AdaptiveColor{Light: "#a3346b", Dark: "#f5a3c7"}
+	ColGold   = lipgloss.AdaptiveColor{Light: "#8a6100", Dark: "#f2d28b"}
+	ColCyan   = ColSteel
+	ColMuted  = lipgloss.AdaptiveColor{Light: "#6b7190", Dark: "#6e7596"}
+	ColText   = ColIce
+	ColBorder = lipgloss.AdaptiveColor{Light: "#c9cde0", Dark: "#2b3048"}
+	colInk    = lipgloss.Color("#05060f") // logo background
 )
 
 var (
-	Bold    = lipgloss.NewStyle().Bold(true)
+	Bold    = lipgloss.NewStyle().Bold(true).Foreground(ColIce)
 	Muted   = lipgloss.NewStyle().Foreground(ColMuted)
 	Up      = lipgloss.NewStyle().Foreground(ColGreen)
 	Down    = lipgloss.NewStyle().Foreground(ColRed)
@@ -33,12 +37,12 @@ var (
 	Pink    = lipgloss.NewStyle().Foreground(ColPink)
 	Gold    = lipgloss.NewStyle().Foreground(ColGold)
 	Cyan    = lipgloss.NewStyle().Foreground(ColCyan)
-	Title   = lipgloss.NewStyle().Bold(true).Foreground(ColAccent)
+	Title   = lipgloss.NewStyle().Bold(true).Foreground(ColIce)
 	Heading = lipgloss.NewStyle().Bold(true).Foreground(ColText)
 	Header  = lipgloss.NewStyle().Bold(true).Foreground(ColMuted)
-	Handle  = lipgloss.NewStyle().Bold(true).Foreground(ColCyan)
-	Badge   = lipgloss.NewStyle().Bold(true).Foreground(lipgloss.Color("#0b0f14")).Background(ColGreen).Padding(0, 1)
-	BadgeW  = lipgloss.NewStyle().Bold(true).Foreground(lipgloss.Color("#0b0f14")).Background(ColGold).Padding(0, 1)
+	Handle  = lipgloss.NewStyle().Bold(true).Foreground(ColSteel)
+	Badge   = lipgloss.NewStyle().Bold(true).Foreground(colInk).Background(ColIce).Padding(0, 1)
+	BadgeW  = lipgloss.NewStyle().Bold(true).Foreground(colInk).Background(ColGold).Padding(0, 1)
 	BadgeE  = lipgloss.NewStyle().Bold(true).Foreground(lipgloss.Color("#ffffff")).Background(ColRed).Padding(0, 1)
 	Box     = lipgloss.NewStyle().Border(lipgloss.RoundedBorder()).BorderForeground(ColBorder).Padding(0, 1)
 )

@@ -1,4 +1,4 @@
-BINARY  := fomo
+BINARY  := fomocli
 PKG     := github.com/FomoCLI/FomoCLI
 VERSION ?= $(shell git describe --tags --always --dirty 2>/dev/null || echo dev)
 COMMIT  ?= $(shell git rev-parse --short HEAD 2>/dev/null || echo none)
@@ -11,10 +11,10 @@ LDFLAGS := -s -w \
 .PHONY: build install test cover lint fmt demo clean snapshot
 
 build: ## Build ./fomo
-	go build -trimpath -ldflags "$(LDFLAGS)" -o $(BINARY) ./cmd/fomo
+	go build -trimpath -ldflags "$(LDFLAGS)" -o $(BINARY) ./cmd/fomocli
 
 install: ## Install into $GOBIN
-	go install -trimpath -ldflags "$(LDFLAGS)" ./cmd/fomo
+	go install -trimpath -ldflags "$(LDFLAGS)" ./cmd/fomocli
 
 test: ## Run tests with the race detector
 	go test -race ./...

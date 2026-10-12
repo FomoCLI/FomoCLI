@@ -1,6 +1,6 @@
-// Package config loads and saves the user's fomo CLI settings.
+// Package config loads and saves the user's fomocli CLI settings.
 //
-// Settings live in $XDG_CONFIG_HOME/fomo/config.json (or the OS equivalent),
+// Settings live in $XDG_CONFIG_HOME/fomocli/config.json (or the OS equivalent),
 // written with 0600 permissions because it holds the API key. Environment
 // variables always win over the file so the CLI is easy to use in CI and bots.
 package config
@@ -32,9 +32,9 @@ type Config struct {
 	Theme         string `json:"theme,omitempty"` // "auto" | "none"
 }
 
-// Keys that `fomo config set` accepts, with a short description.
+// Keys that `fomocli config set` accepts, with a short description.
 var Keys = map[string]string{
-	"api_key":        "API key (prefer `fomo auth login`)",
+	"api_key":        "API key (prefer `fomocli auth login`)",
 	"base_url":       "API base URL (default " + DefaultBaseURL + ")",
 	"cache_ttl":      "reuse cached responses this long, e.g. 60s, 5m, 0 to disable",
 	"default_window": "leaderboard window: 24h | 7d | 30d | all",
@@ -61,7 +61,7 @@ func Dir() (string, error) {
 	if err != nil {
 		return "", err
 	}
-	return filepath.Join(base, "fomo"), nil
+	return filepath.Join(base, "fomocli"), nil
 }
 
 // Path returns the full path of config.json.

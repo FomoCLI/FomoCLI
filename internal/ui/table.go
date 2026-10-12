@@ -132,6 +132,9 @@ func truncateANSI(s string, n int) string {
 	return Truncate(plain, n)
 }
 
+// Plain strips ANSI styling from s.
+func Plain(s string) string { return stripANSI(s) }
+
 func stripANSI(s string) string {
 	var b strings.Builder
 	in := false

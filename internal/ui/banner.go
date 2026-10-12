@@ -8,12 +8,12 @@ import (
 )
 
 var bannerArt = []string{
-	"███████╗ ██████╗ ███╗   ███╗ ██████╗ ",
-	"██╔════╝██╔═══██╗████╗ ████║██╔═══██╗",
-	"█████╗  ██║   ██║██╔████╔██║██║   ██║",
-	"██╔══╝  ██║   ██║██║╚██╔╝██║██║   ██║",
-	"██║     ╚██████╔╝██║ ╚═╝ ██║╚██████╔╝",
-	"╚═╝      ╚═════╝ ╚═╝     ╚═╝ ╚═════╝ ",
+	"███████╗ ██████╗ ███╗   ███╗ ██████╗  ██████╗██╗     ██╗",
+	"██╔════╝██╔═══██╗████╗ ████║██╔═══██╗██╔════╝██║     ██║",
+	"█████╗  ██║   ██║██╔████╔██║██║   ██║██║     ██║     ██║",
+	"██╔══╝  ██║   ██║██║╚██╔╝██║██║   ██║██║     ██║     ██║",
+	"██║     ╚██████╔╝██║ ╚═╝ ██║╚██████╔╝╚██████╗███████╗██║",
+	"╚═╝      ╚═════╝ ╚═╝     ╚═╝ ╚═════╝  ╚═════╝╚══════╝╚═╝",
 }
 
 // Gradient colors each rune of s along a gradient from a to b.
@@ -36,19 +36,25 @@ func Gradient(s, a, b string) string {
 	return out.String()
 }
 
-// Banner returns the big gradient FOMO logo with a tagline.
+// Banner returns the big FomoCLI logo with a tagline. On narrow terminals
+// (phones, split panes) it falls back to the one-line wordmark.
 func Banner(version string) string {
 	var b strings.Builder
 	b.WriteString("\n")
-	for _, l := range bannerArt {
-		b.WriteString("  " + Gradient(l, "#39ff88", "#b388ff") + "\n")
+	if Width() < 62 {
+		b.WriteString("  " + Logo() + "\n")
+	} else {
+		for _, l := range bannerArt {
+			b.WriteString("  " + Gradient(l, "#ffffff", "#aeb6dd") + "\n")
+		}
 	}
 	tag := "  " + Bold.Render("fomo.family in your terminal") + Muted.Render("  ·  ") + Muted.Render(version)
 	b.WriteString(tag + "\n")
 	return b.String()
 }
 
-// Logo is the one-line wordmark used in headers.
+// Logo is the one-line wordmark used in headers: FOMO in logo white, CLI in steel.
 func Logo() string {
-	return Gradient("◆ fomo", "#39ff88", "#b388ff")
+	return lipgloss.NewStyle().Bold(true).Foreground(ColIce).Render("FOMO") +
+		lipgloss.NewStyle().Bold(true).Foreground(ColSteel).Render("CLI")
 }

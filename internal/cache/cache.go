@@ -1,6 +1,6 @@
-// Package cache is the on-disk response store behind fomo's offline mode.
+// Package cache is the on-disk response store behind fomocli's offline mode.
 //
-// Every successful API response is written to $XDG_CACHE_HOME/fomo/. That buys
+// Every successful API response is written to $XDG_CACHE_HOME/fomocli/. That buys
 // two things: repeated calls inside the TTL cost zero credits, and with
 // --offline (or when the network is down) every command can still render the
 // last data it saw - no internet required.
@@ -40,7 +40,7 @@ func Default() (*Store, error) {
 	if err != nil {
 		return nil, err
 	}
-	return &Store{Dir: filepath.Join(base, "fomo")}, nil
+	return &Store{Dir: filepath.Join(base, "fomocli")}, nil
 }
 
 // Key derives a stable file name from a request path (including query).

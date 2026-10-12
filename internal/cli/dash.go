@@ -324,9 +324,9 @@ func (d *dash) rowCount() int { return len(d.rows()) }
 // ---------------------------------------------------------------- view
 
 var (
-	tabOn  = lipgloss.NewStyle().Bold(true).Foreground(lipgloss.Color("#0b0f14")).Background(ui.ColGreen).Padding(0, 1)
+	tabOn  = lipgloss.NewStyle().Bold(true).Foreground(lipgloss.Color("#05060f")).Background(ui.ColIce).Padding(0, 1)
 	tabOff = lipgloss.NewStyle().Foreground(ui.ColMuted).Padding(0, 1)
-	selRow = lipgloss.NewStyle().Background(lipgloss.AdaptiveColor{Light: "#e8e2ff", Dark: "#262b3a"})
+	selRow = lipgloss.NewStyle().Bold(true).Foreground(ui.ColIce).Background(lipgloss.AdaptiveColor{Light: "#dfe3f5", Dark: "#1f2438"})
 )
 
 func (d *dash) View() string {
@@ -440,8 +440,9 @@ func (d *dash) body(h int) string {
 	for i := start; i < len(lines) && len(out) < h; i++ {
 		l := ui.Truncate(lines[i], d.w)
 		if i == cur && len(rows) > 0 {
-			l = ui.Accent.Render("▌") + strings.TrimPrefix(l, " ")
-			l = selRow.Render(padR(l, d.w))
+			// Render the selected row as plain text on one background: inner
+			// color resets would otherwise punch holes in the highlight.
+			l = selRow.Render(padR("▌"+strings.TrimPrefix(ui.Plain(l), " "), d.w))
 		}
 		out = append(out, l)
 	}

@@ -1,13 +1,8 @@
 <div align="center">
 
-```
-███████╗ ██████╗ ███╗   ███╗ ██████╗
-██╔════╝██╔═══██╗████╗ ████║██╔═══██╗
-█████╗  ██║   ██║██╔████╔██║██║   ██║
-██╔══╝  ██║   ██║██║╚██╔╝██║██║   ██║
-██║     ╚██████╔╝██║ ╚═╝ ██║╚██████╔╝
-╚═╝      ╚═════╝ ╚═╝     ╚═╝ ╚═════╝
-```
+<img src="docs/logo.jpg" alt="FomoCLI" width="220">
+
+# FomoCLI
 
 **fomo.family in your terminal.**
 
@@ -23,7 +18,7 @@ Leaderboards · wallets · PnL · positions · token flow · theses · live trad
 
 ---
 
-`fomo` is a fast, single-binary CLI for [fomo.family](https://fomo.family) data, built on the
+**FomoCLI** (`fomocli`) is a fast, single-binary CLI for [fomo.family](https://fomo.family) data, built on the
 [FOMO API](https://fomoapi.io/docs). Find the traders who are up, resolve them to their real
 wallets, read their positions and reasoning, and watch their trades land in realtime - without
 opening a browser.
@@ -46,25 +41,25 @@ opening a browser.
   ⚡ 250 credits · 249,750 left
 ```
 
-<sub>Output from `fomo --demo lb` (sample data). In a real terminal it's in color.</sub>
+<sub>Output from `fomocli --demo lb` (sample data). In a real terminal it's in color.</sub>
 
 ## Highlights
 
 - **Everything the API offers, as commands.** Traders, positions, swaps, multi-chain portfolios,
   following/followers, spotlight, token flow, dev & insider positions, smart-money holders,
   theses, comment threads, coordinated-buy activity, search.
-- **Live ticker.** `fomo live` streams the app feed (or the on-chain feed on Growth+) over a
+- **Live ticker.** `fomocli live` streams the app feed (or the on-chain feed on Growth+) over a
   WebSocket with auto-reconnect. Streaming costs **0 credits**.
-- **Full-screen dashboard.** `fomo dash` puts the leaderboard, token boards, the live feed and
+- **Full-screen dashboard.** `fomocli dash` puts the leaderboard, token boards, the live feed and
   theses in one keyboard-driven TUI.
 - **Offline-first.** Every response is cached on disk. `--offline` replays the last data you saw,
   a dropped connection falls back to the cache automatically, and repeating a command inside the
-  cache TTL costs **0 credits**. Live events are recorded too, so `fomo live --offline` works.
+  cache TTL costs **0 credits**. Live events are recorded too, so `fomocli live --offline` works.
 - **Credit-aware.** Every command shows what it cost and what's left, and expensive calls are
   labeled in `--help`.
 - **Scriptable.** `--json` on every command (stdout stays clean JSON; footers go to stderr),
   meaningful exit codes, shell completion, `FOMO_API_KEY`.
-- **Try it with no key.** `fomo --demo ...` runs every command against built-in sample data.
+- **Try it with no key.** `fomocli --demo ...` runs every command against built-in sample data.
 
 ## Install
 
@@ -77,7 +72,7 @@ curl -fsSL https://raw.githubusercontent.com/FomoCLI/FomoCLI/main/scripts/instal
 **Go** (1.23+):
 
 ```sh
-go install github.com/FomoCLI/FomoCLI/cmd/fomo@latest
+go install github.com/FomoCLI/FomoCLI/cmd/fomocli@latest
 ```
 
 **Binaries:** download for Linux, macOS or Windows (amd64/arm64) from
@@ -92,15 +87,15 @@ git clone https://github.com/FomoCLI/FomoCLI && cd FomoCLI && make build && ./fo
 ## Quick start
 
 ```sh
-fomo --demo lb                 # look around with sample data first - no key needed
+fomocli --demo lb                 # look around with sample data first - no key needed
 
-fomo auth login                # paste your key (free: https://fomoapi.io/dashboard)
-fomo lb                        # top traders, 24h
-fomo trader CryptoKaleo        # wallets, PnL by window, stats
-fomo t CryptoKaleo positions   # open & closed positions, win rate
-fomo tokens                    # what FOMO users are trading right now
-fomo live --chain robinhood    # realtime ticker
-fomo dash                      # full-screen dashboard
+fomocli auth login                # paste your key (free: https://fomoapi.io/dashboard)
+fomocli lb                        # top traders, 24h
+fomocli trader CryptoKaleo        # wallets, PnL by window, stats
+fomocli t CryptoKaleo positions   # open & closed positions, win rate
+fomocli tokens                    # what FOMO users are trading right now
+fomocli live --chain robinhood    # realtime ticker
+fomocli dash                      # full-screen dashboard
 ```
 
 ## Commands
@@ -109,19 +104,19 @@ fomo dash                      # full-screen dashboard
 
 | Command | What it shows | Cost* |
 |---|---|---|
-| `fomo lb [24h\|7d\|30d\|all]` | Top traders by PnL. `--sort volume\|trades\|followers`, `--verified`, `-n` | 250 |
-| `fomo tokens [trending\|most-held\|graduated]` | FOMO token boards: price, 24h, mcap, holders | 250 |
-| `fomo token <addr> [stats]` | Buy/sell flow over 5m · 1h · 4h · 24h, net flow, top-10 concentration | 250 |
-| `fomo token <addr> devs` | Deployer & insider positions with their own thesis (rug signal) | 250 |
-| `fomo token <addr> holders` | Tracked traders holding it (smart money) | 250 |
-| `fomo token <addr> theses` | What traders wrote about it. `--sort likes`, `--threshold`, `--pages` | 1,250/page |
-| `fomo activity` | Several traders hitting one coin at once. `--side`, `--min-traders` | 250 |
-| `fomo search <query>` | Traders and tokens by name. `--type`, `--tokens` | 250 |
-| `fomo theses` | Latest theses. `--chain`, `--sort equity`, `--min-equity` | 1,250 |
+| `fomocli lb [24h\|7d\|30d\|all]` | Top traders by PnL. `--sort volume\|trades\|followers`, `--verified`, `-n` | 250 |
+| `fomocli tokens [trending\|most-held\|graduated]` | FOMO token boards: price, 24h, mcap, holders | 250 |
+| `fomocli token <addr> [stats]` | Buy/sell flow over 5m · 1h · 4h · 24h, net flow, top-10 concentration | 250 |
+| `fomocli token <addr> devs` | Deployer & insider positions with their own thesis (rug signal) | 250 |
+| `fomocli token <addr> holders` | Tracked traders holding it (smart money) | 250 |
+| `fomocli token <addr> theses` | What traders wrote about it. `--sort likes`, `--threshold`, `--pages` | 1,250/page |
+| `fomocli activity` | Several traders hitting one coin at once. `--side`, `--min-traders` | 250 |
+| `fomocli search <query>` | Traders and tokens by name. `--type`, `--tokens` | 250 |
+| `fomocli theses` | Latest theses. `--chain`, `--sort equity`, `--min-equity` | 1,250 |
 
 ### Traders & trades
 
-`fomo trader <handle|userId> [view]` (aliases `t`, `user`):
+`fomocli trader <handle|userId> [view]` (aliases `t`, `user`):
 
 | View | What it shows | Cost* |
 |---|---|---|
@@ -133,39 +128,39 @@ fomo dash                      # full-screen dashboard
 | `spotlight` | FOMO's own pick of their best trades and theses | 250 |
 | `theses` | Everything they wrote. `--sort likes` | 1,250 |
 
-Plus `fomo whois <userId>` (2,500) and `fomo trade <tradeId> [comments]` (250).
+Plus `fomocli whois <userId>` (2,500) and `fomocli trade <tradeId> [comments]` (250).
 
 ### Realtime
 
 | Command | What it does | Cost* |
 |---|---|---|
-| `fomo live` | Streaming ticker. `--trader`, `--chain`, `--token`, `--type thesis`, `--min-usd`, `--bell`, `--onchain` | **0** |
-| `fomo watch <handle>` | Follow one trader live (copy-trading view) | **0** |
-| `fomo alerts` | REST snapshot of the feed. `--type whale`, `--since` | 125 |
-| `fomo dash` | Full-screen dashboard (keys: `1-4` tabs, `↑↓`, `enter`, `w` window, `b` board, `r` refresh, `q` quit) | per tab |
+| `fomocli live` | Streaming ticker. `--trader`, `--chain`, `--token`, `--type thesis`, `--min-usd`, `--bell`, `--onchain` | **0** |
+| `fomocli watch <handle>` | Follow one trader live (copy-trading view) | **0** |
+| `fomocli alerts` | REST snapshot of the feed. `--type whale`, `--since` | 125 |
+| `fomocli dash` | Full-screen dashboard (keys: `1-4` tabs, `↑↓`, `enter`, `w` window, `b` board, `r` refresh, `q` quit) | per tab |
 
 ### Setup & tools
 
-`fomo auth login|status|logout` · `fomo config list|get|set|path` · `fomo status [--watch]` (free) ·
-`fomo credits` · `fomo cache ls|clear|path` · `fomo api <path> -p key=value` (any endpoint, raw JSON) ·
-`fomo completion bash|zsh|fish|powershell` · `fomo version`
+`fomocli auth login|status|logout` · `fomocli config list|get|set|path` · `fomocli status [--watch]` (free) ·
+`fomocli credits` · `fomocli cache ls|clear|path` · `fomocli api <path> -p key=value` (any endpoint, raw JSON) ·
+`fomocli completion bash|zsh|fish|powershell` · `fomocli version`
 
 <sub>* Credit costs as documented at [fomoapi.io/docs](https://fomoapi.io/docs#credits). Cached responses cost 0.</sub>
 
 ## Offline mode
 
-`fomo` saves every API response it receives. That gives you three things:
+`fomocli` saves every API response it receives. That gives you three things:
 
 1. **Repeat for free** - a command repeated inside the cache TTL (default `60s`) is served from disk
-   for 0 credits. Change it with `fomo config set cache_ttl 5m`; skip it with `--fresh`.
-2. **Automatic fallback** - if the network is down, `fomo` shows the cached copy and tells you how old it is.
+   for 0 credits. Change it with `fomocli config set cache_ttl 5m`; skip it with `--fresh`.
+2. **Automatic fallback** - if the network is down, `fomocli` shows the cached copy and tells you how old it is.
 3. **Explicit offline** - `--offline` (or `FOMO_OFFLINE=1`) never touches the network:
 
 ```sh
-fomo lb --offline                       # last leaderboard you loaded
-fomo t CryptoKaleo positions --offline  # last positions you loaded
-fomo live --offline -n 50               # replay the last 50 recorded live events
-fomo cache ls                           # everything available offline
+fomocli lb --offline                       # last leaderboard you loaded
+fomocli t CryptoKaleo positions --offline  # last positions you loaded
+fomocli live --offline -n 50               # replay the last 50 recorded live events
+fomocli cache ls                           # everything available offline
 ```
 
 The first load of any view needs a connection - the data comes from FOMO API. After that, it's yours offline.
@@ -175,13 +170,13 @@ The first load of any view needs a connection - the data comes from FOMO API. Af
 
 ```sh
 # Top 10 by volume as CSV
-fomo lb 7d --json | jq -r '.traders | sort_by(-.volumeUsd)[:10][] | [.handle, .volumeUsd] | @csv'
+fomocli lb 7d --json | jq -r '.traders | sort_by(-.volumeUsd)[:10][] | [.handle, .volumeUsd] | @csv'
 
 # Every whale buy on Robinhood Chain, one JSON object per line
-fomo live --chain robinhood --min-usd 25000 --json | jq -c '{trader, token, usdValue}'
+fomocli live --chain robinhood --min-usd 25000 --json | jq -c '{trader, token, usdValue}'
 
 # Alert when a trader you follow buys
-fomo watch frankdegods --bell
+fomocli watch frankdegods --bell
 ```
 
 Exit codes: `0` ok · `1` error · `2` usage · `3` auth (401) · `4` out of credits (402) · `5` not found · `6` offline/no cache.
@@ -205,7 +200,7 @@ The key is stored with `0600` permissions. Environment variables override the fi
 
 ## 🇨🇳 中文
 
-`fomo` 是一个命令行工具，让你直接在终端里使用 [fomo.family](https://fomo.family) 的数据，无需打开浏览器。
+`fomocli` 是一个命令行工具，让你直接在终端里使用 [fomo.family](https://fomo.family) 的数据，无需打开浏览器。
 查看正在盈利的交易员、他们的真实钱包、持仓、投资组合和交易理由（thesis），并实时跟踪交易。
 
 ### 安装
@@ -213,22 +208,22 @@ The key is stored with `0600` permissions. Environment variables override the fi
 ```sh
 curl -fsSL https://raw.githubusercontent.com/FomoCLI/FomoCLI/main/scripts/install.sh | sh
 # 或者
-go install github.com/FomoCLI/FomoCLI/cmd/fomo@latest
+go install github.com/FomoCLI/FomoCLI/cmd/fomocli@latest
 ```
 
 ### 快速开始
 
 ```sh
-fomo --demo lb                 # 先用示例数据体验，无需 API key，也无需联网
-fomo auth login                # 输入 API key（免费获取：https://fomoapi.io/dashboard）
-fomo lb                        # 24 小时交易员排行榜
-fomo trader CryptoKaleo        # 个人资料、钱包、盈亏
-fomo t CryptoKaleo positions   # 未平仓和已平仓头寸 + 胜率
-fomo t CryptoKaleo balances    # 多链投资组合
-fomo tokens                    # 当前热门代币
-fomo live                      # 实时交易流（免费，0 积分）
-fomo watch frankdegods --bell  # 跟踪单个交易员，交易时响铃提醒
-fomo dash                      # 全屏仪表盘
+fomocli --demo lb                 # 先用示例数据体验，无需 API key，也无需联网
+fomocli auth login                # 输入 API key（免费获取：https://fomoapi.io/dashboard）
+fomocli lb                        # 24 小时交易员排行榜
+fomocli trader CryptoKaleo        # 个人资料、钱包、盈亏
+fomocli t CryptoKaleo positions   # 未平仓和已平仓头寸 + 胜率
+fomocli t CryptoKaleo balances    # 多链投资组合
+fomocli tokens                    # 当前热门代币
+fomocli live                      # 实时交易流（免费，0 积分）
+fomocli watch frankdegods --bell  # 跟踪单个交易员，交易时响铃提醒
+fomocli dash                      # 全屏仪表盘
 ```
 
 ### 不联网也能用？
@@ -237,16 +232,16 @@ fomo dash                      # 全屏仪表盘
 
 - 所有响应都会自动保存到本地缓存。
 - `--offline` 显示你最近看过的数据，**完全不需要网络**：
-  `fomo lb --offline`、`fomo t CryptoKaleo positions --offline`、`fomo live --offline`。
-- 网络断开时，`fomo` 会自动使用缓存，并告诉你数据的时间。
+  `fomocli lb --offline`、`fomocli t CryptoKaleo positions --offline`、`fomocli live --offline`。
+- 网络断开时，`fomocli` 会自动使用缓存，并告诉你数据的时间。
 - 在缓存有效期内（默认 60 秒）重复执行命令**不消耗积分**。
-- `fomo --demo ...` 使用示例数据，可 100% 离线运行。
+- `fomocli --demo ...` 使用示例数据，可 100% 离线运行。
 
 ### 小技巧
 
 - 任何命令加上 `--json` 即可输出 JSON（可以通过管道传给 `jq`）。
 - 每条命令的积分消耗会显示在输出底部（`⚡ 250 credits · 249,750 left`）。
-- 用 `fomo cache ls` 查看哪些数据可以离线使用。
+- 用 `fomocli cache ls` 查看哪些数据可以离线使用。
 
 ---
 
@@ -264,9 +259,9 @@ See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Disclaimer
 
-`fomo` is an independent, unofficial open-source project. It is not affiliated with, endorsed by,
+`fomocli` is an independent, unofficial open-source project. It is not affiliated with, endorsed by,
 or sponsored by fomo.family or fomoapi.io. Data is provided by the FOMO API under its
-[terms](https://fomoapi.io/terms). Nothing here is financial advice. `fomo` is read-only: it never
+[terms](https://fomoapi.io/terms). Nothing here is financial advice. `fomocli` is read-only: it never
 places trades or touches wallet keys.
 
 ## License

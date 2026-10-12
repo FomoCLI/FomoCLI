@@ -1,5 +1,5 @@
 #!/bin/sh
-# fomo installer: downloads the latest release binary for your OS/arch.
+# fomocli installer: downloads the latest release binary for your OS/arch.
 #   curl -fsSL https://raw.githubusercontent.com/FomoCLI/FomoCLI/main/scripts/install.sh | sh
 # Options (env): FOMO_VERSION=v0.1.0  FOMO_INSTALL_DIR=$HOME/.local/bin
 set -eu
@@ -25,12 +25,12 @@ if [ "$VERSION" = "latest" ]; then
   [ -n "$VERSION" ] || { echo "could not determine latest version" >&2; exit 1; }
 fi
 num=${VERSION#v}
-file="fomo_${num}_${os}_${arch}.tar.gz"
+file="fomocli_${num}_${os}_${arch}.tar.gz"
 base="https://github.com/$REPO/releases/download/$VERSION"
 
 tmp=$(mktemp -d)
 trap 'rm -rf "$tmp"' EXIT
-echo "→ downloading fomo $VERSION ($os/$arch)"
+echo "→ downloading fomocli $VERSION ($os/$arch)"
 curl -fsSL "$base/$file" -o "$tmp/$file"
 curl -fsSL "$base/checksums.txt" -o "$tmp/checksums.txt"
 
@@ -41,8 +41,8 @@ else actual=$(shasum -a 256 "$tmp/$file" | awk '{print $1}'); fi
 [ "$expected" = "$actual" ] || { echo "checksum mismatch" >&2; exit 1; }
 
 tar -xzf "$tmp/$file" -C "$tmp"
-if [ -w "$DIR" ]; then mv "$tmp/fomo" "$DIR/fomo"
-else echo "→ installing to $DIR (sudo)"; sudo mv "$tmp/fomo" "$DIR/fomo"; fi
-chmod +x "$DIR/fomo"
-echo "✔ installed $("$DIR/fomo" --version)"
-echo "  next: fomo auth login   (free key: https://fomoapi.io/dashboard)"
+if [ -w "$DIR" ]; then mv "$tmp/fomocli" "$DIR/fomocli"
+else echo "→ installing to $DIR (sudo)"; sudo mv "$tmp/fomocli" "$DIR/fomocli"; fi
+chmod +x "$DIR/fomocli"
+echo "✔ installed $("$DIR/fomocli" --version)"
+echo "  next: fomocli auth login   (free key: https://fomoapi.io/dashboard)"

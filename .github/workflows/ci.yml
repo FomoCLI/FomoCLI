@@ -28,7 +28,7 @@ jobs:
       - name: Test
         run: go test -race ./...
       - name: Build
-        run: go build -o fomo-bin ./cmd/fomo
+        run: go build -o fomocli-bin ./cmd/fomocli
       - name: Smoke test (demo data)
         run: ./fomo-bin --demo lb --no-color
         shell: bash

@@ -1,4 +1,4 @@
-// Command fomo is fomo.family in your terminal.
+// Command fomocli is fomo.family in your terminal.
 package main
 
 import (
