@@ -59,6 +59,8 @@ opening a browser.
   labeled in `--help`.
 - **Scriptable.** `--json` on every command (stdout stays clean JSON; footers go to stderr),
   meaningful exit codes, shell completion, `FOMO_API_KEY`.
+- **Alpha tools.** Swarm radar for coordinated buys, a rug scanner with a reasoned risk score,
+  shareable PNG trader cards, and alerts straight to Telegram or Discord.
 - **Try it with no key.** `fomocli --demo ...` runs every command against built-in sample data.
 
 ## Install
@@ -138,6 +140,39 @@ Plus `fomocli whois <userId>` (2,500) and `fomocli trade <tradeId> [comments]` (
 | `fomocli watch <handle>` | Follow one trader live (copy-trading view) | **0** |
 | `fomocli alerts` | REST snapshot of the feed. `--type whale`, `--since` | 125 |
 | `fomocli dash` | Full-screen dashboard (keys: `1-4` tabs, `↑↓`, `enter`, `w` window, `b` board, `r` refresh, `q` quit) | per tab |
+
+### Alpha & sharing
+
+| Command | What it does | Cost* |
+|---|---|---|
+| `fomocli radar` | **Swarm radar.** Alarm when several traders pile into the same token within minutes (or `--side sell` for coordinated dumps). `--min-traders`, `--window`, `--min-usd`, `--bell`, `--notify`, `--offline` replay | **0** |
+| `fomocli scan <address>` | **Rug scanner.** One 0–100 risk score from buy/sell flow, top-10 concentration, dev & insider exits and smart-money holders, with every reason listed | 750 |
+| `fomocli card <handle>` | **Share card.** A 1200×675 PNG of a trader's PnL, win rate and best trade, ready for X or Telegram. `--window 7d`, `--send telegram` | 2,750 |
+| `fomocli notify setup\|test` | Connect a **Telegram** bot or **Discord** webhook; then add `--notify telegram,discord` to `radar`, `live`, `watch` or `scan` | - |
+
+```text
+  ╭────────────────────────────────────────────────────────────────────────────────────╮
+  │ 🚨 SWARM BUY  $STONK  solana   09:20:25                                            │
+  │ 3 traders · 3 buys · $16.3K in 24m                                                 │
+  │ @TEFL0ND0N $10.1K · @IOnlyBuyTekCoins $3.2K · @EvilPanda $3K                       │
+  │ 6GmAFSYs4gk3FDao5FzzySQpPZaWsa4rUJHacpMpUNgx   check it: fomocli scan 6GmAFS…pUNgx │
+  ╰────────────────────────────────────────────────────────────────────────────────────╯
+```
+
+<img src="docs/card-example.png" alt="fomocli card example" width="600">
+
+<sub>`fomocli --demo card CryptoKaleo` (sample data).</sub>
+
+**Alerts to your phone:**
+
+```sh
+fomocli notify setup                                  # how to get a Telegram bot token / Discord webhook
+fomocli config set telegram_token 123456:ABC...
+fomocli config set telegram_chat_id -1001234567890
+fomocli notify test
+fomocli radar --min-traders 4 --notify telegram       # swarm alerts in your Telegram group
+fomocli watch frankdegods --notify discord            # one trader's every move in Discord
+```
 
 ### Setup & tools
 
@@ -224,6 +259,10 @@ fomocli tokens                    # 当前热门代币
 fomocli live                      # 实时交易流（免费，0 积分）
 fomocli watch frankdegods --bell  # 跟踪单个交易员，交易时响铃提醒
 fomocli dash                      # 全屏仪表盘
+fomocli radar                     # 群体雷达：多个交易员同时买入同一代币时报警（0 积分）
+fomocli scan <代币地址>            # 防跑路扫描：综合风险评分 0–100
+fomocli card CryptoKaleo          # 生成可分享的交易员卡片（PNG）
+fomocli radar --notify telegram   # 把警报推送到 Telegram / Discord
 ```
 
 ### 不联网也能用？

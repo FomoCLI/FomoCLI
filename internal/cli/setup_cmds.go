@@ -158,7 +158,7 @@ func configCmd() *cobra.Command {
 			var pairs [][2]string
 			for _, k := range config.SortedKeys() {
 				v, _ := cfg.Get(k)
-				if k == "api_key" && v != "" {
+				if config.Secret[k] && v != "" {
 					v = maskKey(v)
 				}
 				if v == "" {

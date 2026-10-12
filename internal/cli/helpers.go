@@ -155,6 +155,9 @@ func home() error {
 		{"fomocli tokens trending", "what FOMO users trade right now"},
 		{"fomocli live --chain solana", "streaming trade ticker"},
 		{"fomocli dash", "full-screen interactive dashboard"},
+		{"fomocli radar", "alarm when traders swarm into a token"},
+		{"fomocli scan <token address>", "rug scanner: risk score with reasons"},
+		{"fomocli card CryptoKaleo", "shareable PNG card of a trader"},
 		{"fomocli lb --offline", "last leaderboard you saw, no internet"},
 	}
 	for _, e := range ex {

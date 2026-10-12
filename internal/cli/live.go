@@ -14,6 +14,7 @@ import (
 	"github.com/spf13/cobra"
 
 	"github.com/FomoCLI/FomoCLI/internal/api"
+	"github.com/FomoCLI/FomoCLI/internal/card"
 	"github.com/FomoCLI/FomoCLI/internal/jx"
 	"github.com/FomoCLI/FomoCLI/internal/ui"
 )
@@ -23,6 +24,7 @@ type liveOpts struct {
 	minUSD                                  float64
 	onchain, bell, noReplay                 bool
 	limit                                   int
+	notify                                  []string
 }
 
 func liveCmd() *cobra.Command {
@@ -63,6 +65,7 @@ Streams cost zero credits. Every event is also recorded locally, so
 	f.BoolVar(&o.bell, "bell", false, "ring the terminal bell on every shown trade")
 	f.BoolVar(&o.noReplay, "no-replay", false, "skip the replay of recent events on connect")
 	f.IntVarP(&o.limit, "limit", "n", 100, "--offline: how many recorded events to replay")
+	f.StringSliceVar(&o.notify, "notify", nil, "forward every shown trade to telegram, discord (pair with --min-usd)")
 	return cmd
 }
 
@@ -85,6 +88,7 @@ func watchCmd() *cobra.Command {
 	f.BoolVar(&o.bell, "bell", false, "ring the terminal bell on every trade")
 	f.BoolVar(&o.onchain, "onchain", false, "use the on-chain stream (Growth+)")
 	f.IntVarP(&o.limit, "limit", "n", 100, "--offline: how many recorded events to replay")
+	f.StringSliceVar(&o.notify, "notify", nil, "forward their trades to telegram, discord")
 	return cmd
 }
 
@@ -95,6 +99,15 @@ func runLive(cmd *cobra.Command, o liveOpts) error {
 	rec := newRecorder(o.onchain)
 	if g.offline {
 		return replayRecorded(rec, o)
+	}
+
+	disp, err := dispatcher(o.notify)
+	if err != nil {
+		return err
+	}
+	if disp != nil {
+		disp.Start(cmd.Context())
+		defer disp.Close(5 * time.Second)
 	}
 
 	q := url.Values{}
@@ -139,7 +152,7 @@ func runLive(cmd *cobra.Command, o liveOpts) error {
 	}
 
 	var count int
-	err := client.Stream(cmd.Context(), path, q, func(ev api.StreamEvent) {
+	err = client.Stream(cmd.Context(), path, q, func(ev api.StreamEvent) {
 		if ev.Err != nil || ev.Info != "" {
 			if !g.json {
 				msg := ev.Info
@@ -189,6 +202,9 @@ func runLive(cmd *cobra.Command, o liveOpts) error {
 			return
 		}
 		p(liveLine(m))
+		if !m.Get("replay").Bool() {
+			disp.Push(liveText(m))
+		}
 		if o.bell {
 			fmt.Fprint(ui.Err, "\a")
 		}
@@ -198,6 +214,23 @@ func runLive(cmd *cobra.Command, o liveOpts) error {
 		fmt.Fprintln(ui.Err, "\n  "+ui.Muted.Render(fmt.Sprintf("%d events · recorded for offline replay", count)))
 	}
 	return err
+}
+
+// liveText is the chat-message form of a feed event.
+func liveText(m jx.V) string {
+	t, ok := tradeFromMsg(m)
+	if !ok {
+		return ui.OneLine(m.Get("text").Str()) + "\n— FomoCLI"
+	}
+	icon := "🟢 BUY"
+	if t.Side == "sell" {
+		icon = "🔴 SELL"
+	}
+	msg := fmt.Sprintf("%s @%s $%s %s (%s)", icon, t.Trader, t.Symbol, card.CompactUSD(abs(t.USD)), t.Chain)
+	if t.Address != "" {
+		msg += "\nCA: " + t.Address
+	}
+	return msg + "\n— FomoCLI"
 }
 
 func set(q url.Values, k, v string) {

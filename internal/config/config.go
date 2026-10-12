@@ -30,17 +30,27 @@ type Config struct {
 	DefaultWindow string `json:"default_window,omitempty"` // leaderboard window
 	DefaultChain  string `json:"default_chain,omitempty"`
 	Theme         string `json:"theme,omitempty"` // "auto" | "none"
+
+	TelegramToken  string `json:"telegram_token,omitempty"`
+	TelegramChatID string `json:"telegram_chat_id,omitempty"`
+	DiscordWebhook string `json:"discord_webhook,omitempty"`
 }
 
 // Keys that `fomocli config set` accepts, with a short description.
 var Keys = map[string]string{
-	"api_key":        "API key (prefer `fomocli auth login`)",
-	"base_url":       "API base URL (default " + DefaultBaseURL + ")",
-	"cache_ttl":      "reuse cached responses this long, e.g. 60s, 5m, 0 to disable",
-	"default_window": "leaderboard window: 24h | 7d | 30d | all",
-	"default_chain":  "default chain filter, e.g. solana, robinhood, base",
-	"theme":          "auto | none (disable colors)",
+	"api_key":          "API key (prefer `fomocli auth login`)",
+	"base_url":         "API base URL (default " + DefaultBaseURL + ")",
+	"cache_ttl":        "reuse cached responses this long, e.g. 60s, 5m, 0 to disable",
+	"default_window":   "leaderboard window: 24h | 7d | 30d | all",
+	"default_chain":    "default chain filter, e.g. solana, robinhood, base",
+	"theme":            "auto | none (disable colors)",
+	"telegram_token":   "Telegram bot token from @BotFather (for --notify telegram)",
+	"telegram_chat_id": "Telegram chat/group/channel id to post alerts to",
+	"discord_webhook":  "Discord channel webhook URL (for --notify discord)",
 }
+
+// Secret keys are masked when displayed.
+var Secret = map[string]bool{"api_key": true, "telegram_token": true, "discord_webhook": true}
 
 // SortedKeys returns the config keys in stable order.
 func SortedKeys() []string {
@@ -128,6 +138,12 @@ func (c *Config) Get(key string) (string, error) {
 		return c.DefaultChain, nil
 	case "theme":
 		return c.Theme, nil
+	case "telegram_token":
+		return c.TelegramToken, nil
+	case "telegram_chat_id":
+		return c.TelegramChatID, nil
+	case "discord_webhook":
+		return c.DiscordWebhook, nil
 	}
 	return "", fmt.Errorf("unknown key %q (valid: %s)", key, strings.Join(SortedKeys(), ", "))
 }
@@ -156,6 +172,16 @@ func (c *Config) Set(key, val string) error {
 			return fmt.Errorf("theme must be auto or none")
 		}
 		c.Theme = val
+	case "telegram_token":
+		c.TelegramToken = strings.TrimSpace(val)
+	case "telegram_chat_id":
+		c.TelegramChatID = strings.TrimSpace(val)
+	case "discord_webhook":
+		v := strings.TrimSpace(val)
+		if v != "" && !strings.HasPrefix(v, "https://") {
+			return fmt.Errorf("discord_webhook must be an https:// URL")
+		}
+		c.DiscordWebhook = v
 	default:
 		_, err := c.Get(key)
 		return err
@@ -172,6 +198,19 @@ func (c *Config) ResolvedKey() (key, source string) {
 		return c.APIKey, "config file"
 	}
 	return "", ""
+}
+
+// Notify returns chat-alert settings; FOMO_TELEGRAM_TOKEN,
+// FOMO_TELEGRAM_CHAT_ID and FOMO_DISCORD_WEBHOOK override the file.
+func (c *Config) Notify() (tgToken, tgChat, discord string) {
+	pick := func(env, file string) string {
+		if v := strings.TrimSpace(os.Getenv(env)); v != "" {
+			return v
+		}
+		return file
+	}
+	return pick("FOMO_TELEGRAM_TOKEN", c.TelegramToken), pick("FOMO_TELEGRAM_CHAT_ID", c.TelegramChatID),
+		pick("FOMO_DISCORD_WEBHOOK", c.DiscordWebhook)
 }
 
 // ResolvedBaseURL returns the API base URL.

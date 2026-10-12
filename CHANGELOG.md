@@ -11,6 +11,10 @@ All notable changes to this project are documented here. The format follows
 - New look matching the FomoCLI logo: ice white on near-black, FOMOCLI banner.
 
 ### Added
+- `fomocli radar`: swarm radar over the free live feed - alerts when several traders buy (or sell) the same token within a window; growth alerts, heartbeat, `--offline` replay.
+- `fomocli scan`: rug scanner combining flow, concentration, dev positions and smart-money holders into a 0-100 risk score with reasons.
+- `fomocli card`: 1200×675 PNG trader card in the FomoCLI style; `--send` posts it to Telegram/Discord.
+- `fomocli notify setup|test` and `--notify telegram,discord` on `radar`, `live`, `watch` and `scan`.
 - `fomocli leaderboard`, `tokens`, `token`, `activity`, `search`, `theses` market commands.
 - `fomocli trader <handle> [profile|positions|swaps|balances|following|followers|spotlight|theses]`, `whois`, `trade`.
 - `fomocli live` / `fomocli watch` realtime ticker over the app-feed and on-chain WebSockets, with auto-reconnect.

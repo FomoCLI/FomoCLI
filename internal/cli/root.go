@@ -95,6 +95,7 @@ affiliated with fomo.family.`,
 		&cobra.Group{ID: "market", Title: "Market:"},
 		&cobra.Group{ID: "traders", Title: "Traders & trades:"},
 		&cobra.Group{ID: "live", Title: "Realtime:"},
+		&cobra.Group{ID: "alpha", Title: "Alpha & sharing:"},
 		&cobra.Group{ID: "setup", Title: "Setup & tools:"},
 	)
 
@@ -107,6 +108,7 @@ affiliated with fomo.family.`,
 	add("market", leaderboardCmd(), tokensCmd(), tokenCmd(), activityCmd(), searchCmd(), thesesCmd())
 	add("traders", traderCmd(), whoisCmd(), tradeCmd())
 	add("live", liveCmd(), watchCmd(), alertsCmd(), dashCmd())
+	add("alpha", radarCmd(), scanCmd(), cardCmd(), notifyCmd())
 	add("setup", authCmd(), configCmd(), statusCmd(), creditsCmd(), cacheCmd(), apiCmd(), versionCmd())
 	root.SetHelpCommandGroupID("setup")
 	root.SetCompletionCommandGroupID("setup")
